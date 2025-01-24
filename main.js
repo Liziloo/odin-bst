@@ -95,6 +95,15 @@ class Tree {
         this.preOrder(callback, currentNode.right);
     }
 
+    postOrder(callback, currentNode = this.root) {
+        if (currentNode === null) return;
+        if (!callback) throw new Error('Callback function required.');
+
+        this.postOrder(callback, currentNode.left);
+        this.postOrder(callback, currentNode.right);
+        callback(currentNode);
+    }
+
     getSuccessor(node) {
         node = node.right;
         while (node !== null && node.left !== null) {
@@ -184,6 +193,4 @@ function printNode(node) {
     console.log(node.data);
 }
 
-testTree.preOrder(printNode);
-
-prettyPrint(testTree.root);
+testTree.postOrder(printNode);
