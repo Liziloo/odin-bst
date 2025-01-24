@@ -77,6 +77,15 @@ class Tree {
         }
     }
 
+    inOrder(callback, currentNode = this.root) {
+        if (currentNode === null) return;
+        if (!callback) throw new Error('Callback function required.');
+
+        this.inOrder(callback, currentNode.left);
+        callback(currentNode);
+        this.inOrder(callback, currentNode.right);
+    }
+
     getSuccessor(node) {
         node = node.right;
         while (node !== null && node.left !== null) {
@@ -166,6 +175,6 @@ function printNode(node) {
     console.log(node.data);
 }
 
-testTree.levelOrder(printNode);
+testTree.inOrder(printNode);
 
 prettyPrint(testTree.root);
