@@ -27,6 +27,37 @@ class Tree {
         return currentNode;
     }
 
+    deleteItem(value, currentNode = this.root) {
+        if (currentNode === null) return currentNode;
+        if (currentNode.data > value) {
+            currentNode.left = this.deleteItem(value, currentNode.left);
+        } else if (currentNode.data < value) {
+            currentNode.right = this.deleteItem(value, currentNode.right);
+        } else {
+            if (currentNode.left === null) {
+                return currentNode.right;
+            }
+
+            if (currentNode.right === null) {
+                return currentNode.left;
+            }
+
+            const successor = this.getSuccessor(currentNode);
+            currentNode.data = successor.data;
+            currentNode.right = this.deleteItem(currentNode.data, currentNode.right);
+        }
+
+        return currentNode;
+    }
+
+    getSuccessor(node) {
+        node = node.right;
+        while (node !== null && node.left !== null) {
+            node = node.left;
+        }
+        return node;
+    }
+
     sortedArrayToBST(array, start, end) {
         if (start > end) return null;
 
@@ -103,6 +134,6 @@ const testTree = new Tree(testArray);
 
 testTree.prettyPrint(testTree.root);
 
-testTree.insert(322);
+testTree.deleteItem(67);
 
 testTree.prettyPrint(testTree.root);
