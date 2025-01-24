@@ -16,6 +16,17 @@ class Tree {
         return this.sortedArrayToBST(preppedArray, 0, preppedArray.length - 1);
     }
 
+    insert(value, currentNode = this.root) {
+        if (currentNode === null) return new Node(value);
+        if (currentNode.data === value) return currentNode;
+        if (currentNode.data <= value) {
+            currentNode.left = this.insert(value, currentNode.left);
+        } else if (value > currentNode.data) {
+            currentNode.right = this.insert(value, currentNode.right);
+        }
+        return currentNode;
+    }
+
     sortedArrayToBST(array, start, end) {
         if (start > end) return null;
 
@@ -89,5 +100,9 @@ class Tree {
 const testArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
 const testTree = new Tree(testArray);
+
+testTree.prettyPrint(testTree.root);
+
+testTree.insert(322);
 
 testTree.prettyPrint(testTree.root);
