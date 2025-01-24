@@ -13,7 +13,20 @@ class Tree {
 
     buildTree(array) {
         const preppedArray = this.sortAndTrim(array);
-        
+        return this.sortedArrayToBST(preppedArray, 0, preppedArray.length - 1);
+    }
+
+    sortedArrayToBST(array, start, end) {
+        if (start > end) return null;
+
+        const mid = start + Math.floor((end - start) / 2);
+
+        const root = new Node(array[mid]);
+
+        root.left = this.sortedArrayToBST(array, start, mid - 1);
+        root.right = this.sortedArrayToBST(array, mid + 1, end);
+
+        return root;
     }
 
     sortAndTrim(array) {
@@ -64,15 +77,17 @@ class Tree {
           return;
         }
         if (node.right !== null) {
-          prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+          this.prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
         }
         console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
         if (node.left !== null) {
-          prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+          this.prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
         }
       };
 }
 
-const testArray = [2, 2, 2, 2, 2, 2, 2, 1, 88, 8, 8, 19];
+const testArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
 const testTree = new Tree(testArray);
+
+testTree.prettyPrint(testTree.root);
