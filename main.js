@@ -51,7 +51,7 @@ class Tree {
     }
 
     find(value, currentNode = this.root) {
-        console.log(currentNode);
+        if (currentNode === null) return false;
         if (currentNode.data === value) {
             return currentNode
         }
@@ -61,7 +61,6 @@ class Tree {
         if (currentNode.data > value) {
             return this.find(value, currentNode.left);
         }
-        return false;
     }
 
     getSuccessor(node) {
@@ -148,6 +147,6 @@ const testTree = new Tree(testArray);
 
 testTree.prettyPrint(testTree.root);
 
-testTree.find(67);
+testTree.find(0);
 
 testTree.prettyPrint(testTree.root);
