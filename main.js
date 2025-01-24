@@ -63,6 +63,20 @@ class Tree {
         }
     }
 
+    levelOrder(callback, currentNode = this.root) {
+        if (currentNode === null) return
+        if (!callback) throw new Error('Callback function required.');
+        const q = [];
+        
+        q.push(currentNode);
+        while (q[0]) {
+            currentNode = q.shift();
+            callback(currentNode);
+            if (currentNode.left !== null) q.push(currentNode.left);
+            if (currentNode.right !== null) q.push(currentNode.right);
+        }
+    }
+
     getSuccessor(node) {
         node = node.right;
         while (node !== null && node.left !== null) {
@@ -126,27 +140,32 @@ class Tree {
         }
         return sortedArr;
     }
-
-    prettyPrint(node, prefix = "", isLeft = true) {
-        if (node === null) {
-          return;
-        }
-        if (node.right !== null) {
-          this.prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-        }
-        console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-        if (node.left !== null) {
-          this.prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-        }
-      };
 }
+
+
+const prettyPrint = (node, prefix = "", isLeft = true) => {
+    if (node === null) {
+      return;
+    }
+    if (node.right !== null) {
+      prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+    }
+    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+    if (node.left !== null) {
+      prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+    }
+  };
 
 const testArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 
 const testTree = new Tree(testArray);
 
-testTree.prettyPrint(testTree.root);
+prettyPrint(testTree.root);
 
-testTree.find(0);
+function printNode(node) {
+    console.log(node.data);
+}
 
-testTree.prettyPrint(testTree.root);
+testTree.levelOrder(printNode);
+
+prettyPrint(testTree.root);
