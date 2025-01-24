@@ -50,6 +50,20 @@ class Tree {
         return currentNode;
     }
 
+    find(value, currentNode = this.root) {
+        console.log(currentNode);
+        if (currentNode.data === value) {
+            return currentNode
+        }
+        if (currentNode.data < value) {
+            return this.find(value, currentNode.right);
+        }
+        if (currentNode.data > value) {
+            return this.find(value, currentNode.left);
+        }
+        return false;
+    }
+
     getSuccessor(node) {
         node = node.right;
         while (node !== null && node.left !== null) {
@@ -134,6 +148,6 @@ const testTree = new Tree(testArray);
 
 testTree.prettyPrint(testTree.root);
 
-testTree.deleteItem(67);
+testTree.find(67);
 
 testTree.prettyPrint(testTree.root);
