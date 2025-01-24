@@ -169,6 +169,14 @@ class Tree {
     }
 }
 
+function height(node) {
+    if (node === null) return -1;
+    const leftDepth = height(node.left) + 1;
+    const rightDepth = height(node.right) + 1;
+
+    if (leftDepth > rightDepth) return leftDepth;
+    return rightDepth;
+}
 
 const prettyPrint = (node, prefix = "", isLeft = true) => {
     if (node === null) {
@@ -193,4 +201,4 @@ function printNode(node) {
     console.log(node.data);
 }
 
-testTree.postOrder(printNode);
+console.log(height(testTree.root));
