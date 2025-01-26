@@ -104,6 +104,27 @@ class Tree {
         callback(currentNode);
     }
 
+    height(node) {
+        if (node === null) return -1;
+        const leftHeight = this.height(node.left);
+        const rightHeight = this.height(node.right);
+    
+        if (leftHeight > rightHeight) return leftHeight + 1;
+        return rightHeight + 1;
+    }
+
+    depth(node, currentNode = this.root, count = 0) {
+        if (node === null) return;
+        if (currentNode.data === node.data) return count;
+        if (node.data < currentNode.data) {
+            count++;
+            return this.depth(node, currentNode.left, count);
+        } else if (node.data > currentNode.data) {
+            count++;
+            return this.depth(node, currentNode.right, count);
+        }
+    }
+
     getSuccessor(node) {
         node = node.right;
         while (node !== null && node.left !== null) {
@@ -169,15 +190,6 @@ class Tree {
     }
 }
 
-function height(node) {
-    if (node === null) return -1;
-    const leftDepth = height(node.left) + 1;
-    const rightDepth = height(node.right) + 1;
-
-    if (leftDepth > rightDepth) return leftDepth;
-    return rightDepth;
-}
-
 const prettyPrint = (node, prefix = "", isLeft = true) => {
     if (node === null) {
       return;
@@ -201,4 +213,4 @@ function printNode(node) {
     console.log(node.data);
 }
 
-console.log(height(testTree.root));
+console.log(testTree.depth(testTree.root.left.right.right.right));
