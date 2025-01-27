@@ -125,6 +125,26 @@ class Tree {
         }
     }
 
+    isBalanced(node = this.root) {
+        if (node === null) return true;
+        let leftHeight = 0;
+        let rightHeight = 0;
+        if (node.left !== null) {
+            leftHeight = this.height(node.left);
+        }
+        if (node.right !== null) {
+            rightHeight = this.height(node.right);
+        }
+        
+        if (leftHeight - rightHeight < 2 && leftHeight - rightHeight > -2) {
+            const leftBalance = this.isBalanced(node.left);
+            const rightBalance = this.isBalanced(node.right);
+            if (leftBalance === false || rightBalance === false) {
+                return false
+            } else return true;
+        } else return false;
+    }
+
     getSuccessor(node) {
         node = node.right;
         while (node !== null && node.left !== null) {
@@ -213,4 +233,4 @@ function printNode(node) {
     console.log(node.data);
 }
 
-console.log(testTree.depth(testTree.root.left.right.right.right));
+console.log(testTree.isBalanced());
