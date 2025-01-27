@@ -145,6 +145,16 @@ class Tree {
         } else return false;
     }
 
+    rebalance() {
+        const newArray = [];
+
+        function reArray(node) {
+            newArray.push(node.data);
+        }
+        this.levelOrder(reArray);
+        this.root = this.buildTree(newArray);
+    }
+
     getSuccessor(node) {
         node = node.right;
         while (node !== null && node.left !== null) {
@@ -223,14 +233,30 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     }
   };
 
-const testArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+const generateTestArray = (num) => {
+    const array = [];
+    for (let i = 0; i < num; i++) {
+        const randNum = Math.floor((Math.random() * 100) + 1);
+        array.push(randNum);
+    }
+    return array;
+}
+
+const testArray = generateTestArray(30);
+console.log(testArray);
 
 const testTree = new Tree(testArray);
+prettyPrint(testTree.root);
+console.log(testTree.isBalanced());
+
+testTree.insert(158);
+testTree.insert(3335);
+testTree.insert(10934);
+testTree.insert(4232);
 
 prettyPrint(testTree.root);
 
-function printNode(node) {
-    console.log(node.data);
-}
-
+console.log(testTree.isBalanced());
+testTree.rebalance();
+prettyPrint(testTree.root);
 console.log(testTree.isBalanced());
